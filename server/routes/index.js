@@ -22,7 +22,7 @@ router.get("/", (req, res, next) => {
 
 router.get('/itineraries/:itinerary_id', function(req, res, next){
 
-  Itinerary.findById(parseInt(req.params.itinerary_id), { include: [{ all: true }] })
+  Itinerary.findById(parseInt(req.params.itinerary_id), { include: [{ all: true, nested: true }] })
   .then((data)=>{
     res.json(data);
   })

@@ -125,3 +125,39 @@ function removeAttractionFromDOM(category, attractionData) {
   // Animate map to default position & zoom.
   map.flyTo({ center: [-74.0, 40.731], zoom: 12.3 });
 }
+
+
+fetch('/api/itineraries/' + location.hash.slice(1))
+.then(result => result.json())
+.then((it) => {
+  console.log(it.hotels[0].type)
+  it.hotels.forEach(function(x){
+    buildAttractionAssets(x.type+"s", x);
+  })
+  it.restaurants.forEach(function(x){
+    buildAttractionAssets(x.type+"s", x);
+  })
+  it.activities.forEach(function(x){
+    buildAttractionAssets('activities', x);
+  })
+  // var innerState = {
+  //   'hotels': [],
+  //   'restaurants': [],
+  //   'activities': [],
+  // };
+  // it.hotels.forEach((hotel)=>innerState['hotels'].push(hotel));
+  // //state['restaurants'].push(it.restaurants);
+  // it.restaurants.forEach((hotel)=>innerState['restaurants'].push(hotel));
+  // //state['activities'].push(it.activities);
+  // it.activities.forEach((hotel)=>innerState['activities'].push(hotel));
+
+  // console.log(innerState);
+  // for(attr in innerState) {
+  //   //console.log(attr);
+  //   innerState[attr].forEach(function(at){
+  //     console.log(at);
+  //     buildAttractionAssets(at.type, at);
+  //   })
+  // }
+})
+.catch(console.error)
