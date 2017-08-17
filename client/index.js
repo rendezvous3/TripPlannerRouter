@@ -126,38 +126,44 @@ function removeAttractionFromDOM(category, attractionData) {
   map.flyTo({ center: [-74.0, 40.731], zoom: 12.3 });
 }
 
-
+// if(location.hash){
 fetch('/api/itineraries/' + location.hash.slice(1))
 .then(result => result.json())
 .then((it) => {
-  console.log(it.hotels[0].type)
-  it.hotels.forEach(function(x){
-    buildAttractionAssets(x.type+"s", x);
+  console.log(it.iter_hotels)
+  //it.hotels.forEach(function(x){
+  it.iter_hotels.forEach(function(x){
+    buildAttractionAssets("hotels", x.hotel);
   })
-  it.restaurants.forEach(function(x){
-    buildAttractionAssets(x.type+"s", x);
+  //it.restaurants.forEach(function(x){
+  it.iter_restaurants.forEach(function(x){
+    buildAttractionAssets("restaurants", x.restaurant);
   })
-  it.activities.forEach(function(x){
-    buildAttractionAssets('activities', x);
+  //it.activities.forEach(function(x){
+  it.iter_activities.forEach(function(x){
+    buildAttractionAssets('activities', x.activity);
   })
-  // var innerState = {
-  //   'hotels': [],
-  //   'restaurants': [],
-  //   'activities': [],
-  // };
-  // it.hotels.forEach((hotel)=>innerState['hotels'].push(hotel));
-  // //state['restaurants'].push(it.restaurants);
-  // it.restaurants.forEach((hotel)=>innerState['restaurants'].push(hotel));
-  // //state['activities'].push(it.activities);
-  // it.activities.forEach((hotel)=>innerState['activities'].push(hotel));
-
-  // console.log(innerState);
-  // for(attr in innerState) {
-  //   //console.log(attr);
-  //   innerState[attr].forEach(function(at){
-  //     console.log(at);
-  //     buildAttractionAssets(at.type, at);
-  //   })
-  // }
 })
 .catch(console.error)
+
+// }
+
+
+document.getElementById('submitBtn').addEventListener('click', function(){
+  //console.log(state);
+  var hotelIds = state.hotels.map(function(x){ return x.id });
+  var restIds = state.restaurants.map(function(x){ return x.id });
+  var actIds = state.activities.map(function(x){ return x.id });
+  fetch('/api/itineraries', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify({
+      'hotels': hotelIds,
+      'restaurants': restIds,
+      'activities': actIds,
+    })
+  });
+})
+// fetch()

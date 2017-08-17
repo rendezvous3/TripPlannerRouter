@@ -7,7 +7,7 @@ var Place = require("./models").Place;
 var Hotel = require("./models").Hotel;
 var Restaurant = require("./models").Restaurant;
 var Activity = require("./models").Activity;
-var Itinerary = require("./itinerary").Itinerary;
+//var Itinerary = require("./itinerary").Itinerary;
 
 var data = {
   hotel: [
